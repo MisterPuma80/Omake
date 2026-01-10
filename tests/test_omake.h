@@ -40,6 +40,22 @@ TEST_CASE("[Omake] test_consts") {
 	CHECK(Omake::_INT64_MAX == INT64_MAX);
 }
 
+TEST_CASE("[Omake] test_get_cpu_ticks_nsec") {
+	uint64_t ticks = Omake::get_cpu_ticks_nsec();
+	CHECK(ticks > 0);
+}
+
+TEST_CASE("[Omake] add_clampedi") {
+	CHECK(6 == Omake::add_clampedi(1, 5, 0, 100)); // Normal add
+	CHECK(-4 == Omake::add_clampedi(1, -5, -100, 100)); // Normal add
+	CHECK(0 == Omake::add_clampedi(6, -900, 0, 100)); // Clamp Underflow
+	CHECK(100 == Omake::add_clampedi(6, 900, 0, 100)); // Clamp Overflow
+
+	CHECK(INT64_MAX == Omake::add_clampedi(7, INT64_MAX)); // Clamp Overflow
+	CHECK(INT64_MIN == Omake::add_clampedi(-8, INT64_MIN)); // Clamp Underflow
+	CHECK(0 == Omake::add_clampedi(0, INT64_MIN, 0, INT64_MAX)); // Clamp Underflow
+}
+
 TEST_CASE("[Omake] test_func") {
 	CHECK(69 == Omake::test_func());
 }
