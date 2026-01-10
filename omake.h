@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "core/object/ref_counted.h"
+#include "core/object/object.h"
 
-class Omake : public RefCounted {
-	GDCLASS(Omake, RefCounted);
+class Omake : public Object {
+	GDCLASS(Omake, Object);
 
 protected:
 	static void _bind_methods();
